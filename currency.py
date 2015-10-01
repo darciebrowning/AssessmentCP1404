@@ -1,5 +1,6 @@
 __author__ = 'Darcie'
 import web_utility
+from trip import Country
 
 def convert(amount, home_currency_code, location_currency_code):
 
@@ -31,20 +32,20 @@ def get_details(country_name):
     file.close()
     return ()
 
+
 #Get details for the users home country
-country_name = input("Enter your Country name: ")
-home_currency_code = get_details(country_name) [1]
-print(home_currency_code)
+#country_name = input("Enter your Country name: ")
+#home_currency_code = get_details(country_name) [1]
+
 
 #Get details for the country the visitor is converting to
-country_name = input("Enter the country you would like to convert to: ")
-location_currency_code = get_details(country_name) [1]
-print(location_currency_code)
+#country_name = input("Enter the country you would like to convert to: ")
+#location_currency_code = get_details(country_name) [1]
+
 
 #Get the amount the user would like to convert
-amount = input("Enter the value you would like to convert: ")
+#amount = input("Enter the value you would like to convert: ")
 
 #pass values to the convert function and run it
-convert(amount, home_currency_code, location_currency_code)
-
+#convert(amount, home_currency_code, location_currency_code)
 
