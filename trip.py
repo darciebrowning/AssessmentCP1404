@@ -1,26 +1,30 @@
 __author__ = 'Darcie'
+from currency import *
 
-from currency import get_details
 
 class Error(Exception):
+
+
     pass
 
-class Country(name, currency_code, currency_symbol):
-    pass
-    name = ""
-    currency_code = ""
-    currency_symbol = ""
 
-    def __init__(self):
-        pass
+class Country:
+
+    def __init__(self, name, currency_code, currency_symbol):
+        self.name = name
+        self.currency_code = currency_code
+        self.currency_symbol = currency_symbol
 
     def format_currency(amount):
-        get_details(country_name="Australia")
 
 
-
+        pass
 
 class Details:
+
+    def __init__(self, location):
+        self.location = location
+
     pass
 
 
