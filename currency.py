@@ -1,7 +1,11 @@
 __author__ = 'Darcie'
-import web_utility
-from trip import *
+"""
+Gets details about a certain country and then establishes a connection with a web page to return a converted amount.
 
+Currency. Created by Darcie Browning, September 2015
+"""
+
+import web_utility
 
 def convert(amount, home_currency_code, location_currency_code):
     """This function generates the URL string for the countries the user
@@ -9,7 +13,8 @@ def convert(amount, home_currency_code, location_currency_code):
 
     if home_currency_code != location_currency_code:
         try:
-            url_string = ("https://www.google.com/finance/converter?a= {} &from= {}  &to= {}".format(amount, home_currency_code, location_currency_code))
+            url_string = ("https://www.google.com/finance/converter?a= {} &from= {}  &to= {}"
+                          .format(amount, home_currency_code, location_currency_code))
             result = web_utility.load_page(url_string)
             result = (result[result.index('result'):])
 
@@ -22,7 +27,7 @@ def convert(amount, home_currency_code, location_currency_code):
             amount = -1
             return amount
     else:
-        # occurs if location_currency_code and home_currency_code are the same values
+        # this block only occurs if location_currency_code and home_currency_code are the same values
         amount = -1
         return amount
 
@@ -33,13 +38,13 @@ def get_details(country_name):
 
     # open the currency_details file for use
     file = open('currency_details.txt', mode='r')
-    lines = file.readlines()
+    details = file.readlines()
 
     # Loop through the lines file until the matching country name is found and return line.
-    for details in lines:
-        if country_name in details:
-            details = tuple(list(details.strip('\n').split(',')))
-            return details
+    for detail in details:
+        if country_name in detail:
+            detail = tuple(list(detail.strip('\n').split(',')))
+            return detail
 
     #close the file
     file.close()
