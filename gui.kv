@@ -1,0 +1,40 @@
+BoxLayout:
+    orientation: 'vertical'
+    BoxLayout:
+        orientation: 'horizontal'
+        Label:
+            id: current_location
+    BoxLayout:
+        size_hint_y: 0.1
+        orientation: 'horizontal'
+        Spinner:
+            id: country_selection
+            text: app.current_country
+            values: app.country_names
+            on_text: app.change_state(self.text)
+        TextInput:
+            id: foreign_amount
+    BoxLayout:
+        size_hint_y: 0.1
+        orientation: 'horizontal'
+        Label:
+            id: home_country
+        TextInput:
+            id: home_amount
+    BoxLayout:
+        size_hint_y: 0.1
+        orientation: 'horizontal'
+        Label:
+            id: date_today
+    BoxLayout:
+        size_hint_y: 0.1
+        orientation: 'horizontal'
+        Label:
+            id: status
+        Button:
+            id: convert
+            text: 'Update Currency'
+            on_press: app.button_pressed()
+
+
+
