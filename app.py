@@ -9,12 +9,14 @@ import datetime
 from currency import *
 from trip import *
 
+
 class CurrencyApp(App):
     current_country = StringProperty()
     country_names = ListProperty()
 
-    #def __init__(self, trip):
-        #self.trip = trip
+    # def __init__(self, trip_details):
+    #     super(CurrencyApp, self).__init__()
+    #     self.trip_details = trip_details
 
     def build(self):
         Window.size = (350, 700)
@@ -37,10 +39,11 @@ class CurrencyApp(App):
         line = input_file.readline()
         self.root.ids.home_country.text = line
 
-    # def current_location(self):
-    #     date_string = (datetime.date.today().strftime("%Y/%m/%d"))
-    #     location = trip.Details.current_country(date_string)
-    #     self.root.ids.current_location.text = 'Current Location:\n' + location
+    def current_location(self):
+        date_string = (datetime.date.today().strftime("%Y/%m/%d"))
+        print(date_string)
+        #location = trip.Details.current_country(date_string)
+        #self.root.ids.current_location.text = 'Current Location:\n' + location
 
     def current_date(self):
         date_today = datetime.date.today().strftime("%Y/%m/%d")
