@@ -24,7 +24,7 @@ class CurrencyApp(App):
         self.root = Builder.load_file('gui.kv')
         self.country_names = sorted(results.keys())
         self.current_country = self.country_names[0]
-        #self.current_country()
+        self.current_location()
         self.home_country()
         self.current_date()
         return self.root
@@ -40,16 +40,39 @@ class CurrencyApp(App):
         self.root.ids.home_country.text = line
 
     def current_location(self):
-        date_string = (datetime.date.today().strftime("%Y/%m/%d"))
-        print(date_string)
-        #location = trip.Details.current_country(date_string)
-        #self.root.ids.current_location.text = 'Current Location:\n' + location
+        date_string = datetime.date.today().strftime("%Y/%m/%d")
+        location_file = open('config.txt')
+        location = location_file.readline()[1:]
+        details = Details()
+
+        for line in location_file:
+            line = line.strip('\n').split(',')
+            country_name, start_date, end_date = line[0], line[1], line[2]
+            details.add(country_name, start_date, end_date)
+        location_file.close()
+
+        current_country = details.current_country(date_string)
+        self.root.ids.current_location.text = 'Current trip location is:\n' + current_country
 
     def current_date(self):
         date_today = datetime.date.today().strftime("%Y/%m/%d")
         self.root.ids.date_today.text = 'Today is:\n' + date_today
 
     def button_pressed(self):
-        pass
+        # country_name = self.root.ids.home_country.text
+        # amount = self.valid()
+        # home_currency = (get_details(self.root.ids.home_country.text))
+        #
+        # #location_currency = str(get_details(self.root.ids.country_selection.text))
+        # conversion_result = convert(amount,home_currency,location_currency)
+        # self.root.ids.home_amount.text = str(conversion_result)
 
+    def valid(self):
+        try:
+            value = float(self.root.ids.foreign_amount.text)
+            return value
+
+        except ValueError:
+            print("This amount is not valid.")
+            return 0
 CurrencyApp().run()

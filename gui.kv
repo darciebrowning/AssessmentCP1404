@@ -9,11 +9,11 @@ BoxLayout:
         orientation: 'horizontal'
         Spinner:
             id: country_selection
-            text: app.current_country
             values: app.country_names
             on_text: app.change_state(self.text)
         TextInput:
             id: foreign_amount
+            on_text: app.button_pressed
     BoxLayout:
         size_hint_y: 0.1
         orientation: 'horizontal'
