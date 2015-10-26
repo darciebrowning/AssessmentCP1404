@@ -30,7 +30,7 @@ class CurrencyApp(App):
         return self.root
 
     def change_state(self, country_names):
-        self.root.ids.foreign_amount.text = 'converted number here'
+        self.root.ids.foreign_amount.text = ''
         foreign_country_code = get_details(country_names)
         print "changed to", country_names
 
@@ -59,13 +59,21 @@ class CurrencyApp(App):
         self.root.ids.date_today.text = 'Today is:\n' + date_today
 
     def button_pressed(self):
-        # country_name = self.root.ids.home_country.text
-        # amount = self.valid()
-        # home_currency = (get_details(self.root.ids.home_country.text))
-        #
-        # #location_currency = str(get_details(self.root.ids.country_selection.text))
-        # conversion_result = convert(amount,home_currency,location_currency)
-        # self.root.ids.home_amount.text = str(conversion_result)
+        country_name = str(self.root.ids.home_country.text).strip('\n')
+        amount = self.valid()
+        home_currency = str(get_details(country_name)).strip('\'').split('\'')[3]
+
+        print(home_currency)
+
+        try:
+            country_name = str(self.root.ids.country_selection.text)
+            location_currency = (get_details(country_name))
+            location_currency = str(location_currency).strip('\'').split('\'')[3]
+            converted_value = convert(amount, home_currency, location_currency)
+            self.root.ids.home_amount.text = str(converted_value)
+
+        except ValueError:
+            print("This amount is not valid.")
 
     def valid(self):
         try:
@@ -75,4 +83,5 @@ class CurrencyApp(App):
         except ValueError:
             print("This amount is not valid.")
             return 0
+
 CurrencyApp().run()

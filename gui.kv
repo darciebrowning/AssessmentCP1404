@@ -1,14 +1,17 @@
 BoxLayout:
     orientation: 'vertical'
     BoxLayout:
+        size_hint_y: 0.3
         orientation: 'horizontal'
         Label:
             id: current_location
+            font_size: 30
     BoxLayout:
         size_hint_y: 0.1
         orientation: 'horizontal'
         Spinner:
             id: country_selection
+            font_size: 20
             values: app.country_names
             on_text: app.change_state(self.text)
         TextInput:
@@ -19,15 +22,17 @@ BoxLayout:
         orientation: 'horizontal'
         Label:
             id: home_country
+            font_size: 20
         TextInput:
             id: home_amount
     BoxLayout:
-        size_hint_y: 0.1
+        size_hint_y: 0.2
         orientation: 'horizontal'
         Label:
             id: date_today
+            font_size: 25
     BoxLayout:
-        size_hint_y: 0.1
+        size_hint_y: 0.05
         orientation: 'horizontal'
         Label:
             id: status
