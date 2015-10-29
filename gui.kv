@@ -12,7 +12,6 @@ BoxLayout:
         Spinner:
             id: country_selection
             font_size: 20
-            values: app.country_names
             on_text: app.change_state(self.text)
         TextInput:
             id: foreign_amount

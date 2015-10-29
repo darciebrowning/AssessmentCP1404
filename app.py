@@ -14,16 +14,15 @@ class CurrencyApp(App):
     current_country = StringProperty()
     country_names = ListProperty()
 
-    # def __init__(self, trip_details):
-    #     super(CurrencyApp, self).__init__()
-    #     self.trip_details = trip_details
+    def __init__(self):
+        super(CurrencyApp, self).__init__()
+        self.trip_details = Details()
 
     def build(self):
         Window.size = (350, 700)
         self.title = 'Bills Budget Adventures Currency Calculator'
         self.root = Builder.load_file('gui.kv')
-        self.country_names = sorted(results.keys())
-        self.current_country = self.country_names[0]
+        self.countries_available()
         self.current_location()
         self.home_country()
         self.current_date()
@@ -83,5 +82,17 @@ class CurrencyApp(App):
         except ValueError:
             print("This amount is not valid.")
             return 0
+
+
+    def countries_available(self):
+        config_file = open('config.txt', encoding='utf-8')
+        config_file = config_file.readlines() [1:]
+        countries = []
+        for content in config_file:
+            content = str(content).split(',')[0]
+            countries.append(content)
+        d = dict.fromkeys(countries)
+        self.root.ids.country_selection.values = d
+
 
 CurrencyApp().run()
