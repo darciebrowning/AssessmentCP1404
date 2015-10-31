@@ -9,6 +9,7 @@ import datetime
 from currency import *
 from trip import *
 import os.path
+from kivy.uix.textinput import TextInput
 
 
 class CurrencyApp(App):
@@ -71,6 +72,7 @@ class CurrencyApp(App):
         """
 
     def status_bar_update(self):
+        """Updates the status bar of any errors loading the config file"""
         try:
             os.path.exists('config.txt')
             config_file = open ('config.txt', encoding='utf-8')
@@ -89,23 +91,24 @@ class CurrencyApp(App):
             if not os.path.exists('config.txt'):
                 self.root.ids.status.text = "Trip file not found"
 
+    def button_pressed(self):
 
-    # def button_pressed(self):
-    #     country_name = str(self.root.ids.home_country.text).strip('\n')
-    #     amount = self.valid()
-    #     home_currency = str(get_details(country_name)).strip('\'').split('\'')[3]
-    #
-    #     print(home_currency)
-    #
-    #     try:
-    #         country_name = str(self.root.ids.country_selection.text)
-    #         location_currency = (get_details(country_name))
-    #         location_currency = str(location_currency).strip('\'').split('\'')[3]
-    #         converted_value = convert(amount, home_currency, location_currency)
-    #         self.root.ids.home_amount.text = str(converted_value)
-    #
-    #     except ValueError:
-    #         print("This amount is not valid.")
+        country_name = str(self.root.ids.home_country.text).strip('\n')
+        foreign_country = self.root.ids.country_selection.text
+        home_currency = str(get_details(country_name)).strip('\'').split('\'')[3]
+        foreign_currency = str(get_details(foreign_country)).strip('\'').split('\'')[3]
+        conversion_rate = convert(1,home_currency,foreign_currency)
+        foreign_amount = self.root.ids.foreign_amount.text
+
+
+        print(foreign_amount)
+        print(conversion_rate)
+        print(home_currency)
+        print(foreign_currency)
+
+
+
+
 
     def valid(self):
         try:

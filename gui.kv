@@ -15,7 +15,7 @@ BoxLayout:
             on_text: app.change_state(self.text)
         TextInput:
             id: foreign_amount
-            on_text:
+            text: ''
     BoxLayout:
         size_hint_y: 0.1
         orientation: 'horizontal'
@@ -24,6 +24,7 @@ BoxLayout:
             font_size: 20
         TextInput:
             id: home_amount
+            text: ''
     BoxLayout:
         size_hint_y: 0.2
         orientation: 'horizontal'
