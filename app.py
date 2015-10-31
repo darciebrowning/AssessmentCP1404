@@ -8,6 +8,7 @@ from kivy.properties import ListProperty
 import datetime
 from currency import *
 from trip import *
+import os.path
 
 
 class CurrencyApp(App):
@@ -22,6 +23,7 @@ class CurrencyApp(App):
         Window.size = (350, 700)
         self.title = 'Bills Budget Adventures Currency Calculator'
         self.root = Builder.load_file('gui.kv')
+        self.status_bar_update()
         self.countries_available()
         self.current_location()
         self.home_country()
@@ -34,11 +36,13 @@ class CurrencyApp(App):
         print "changed to", country_names
 
     def home_country(self):
+        """Searches the config.txt file (first line) to get home country"""
         input_file = open('config.txt', encoding='utf-8')
         line = input_file.readline()
         self.root.ids.home_country.text = line
 
     def current_location(self):
+        """Gets the current trip location based on the current date"""
         date_string = datetime.date.today().strftime("%Y/%m/%d")
         location_file = open('config.txt')
         location = location_file.readline()[1:]
@@ -57,22 +61,51 @@ class CurrencyApp(App):
         date_today = datetime.date.today().strftime("%Y/%m/%d")
         self.root.ids.date_today.text = 'Today is:\n' + date_today
 
-    def button_pressed(self):
-        country_name = str(self.root.ids.home_country.text).strip('\n')
-        amount = self.valid()
-        home_currency = str(get_details(country_name)).strip('\'').split('\'')[3]
+    def currency_convert_pressed(self):
+        """
+        If text entered into home country feild
+        run convert function and output to foreign country field
 
-        print(home_currency)
+        else if text changed in foreign country feild
+        run convert function and output to home country field
+        """
 
+    def status_bar_update(self):
         try:
-            country_name = str(self.root.ids.country_selection.text)
-            location_currency = (get_details(country_name))
-            location_currency = str(location_currency).strip('\'').split('\'')[3]
-            converted_value = convert(amount, home_currency, location_currency)
-            self.root.ids.home_amount.text = str(converted_value)
+            os.path.exists('config.txt')
+            config_file = open ('config.txt', encoding='utf-8')
+            config_file = config_file.readlines()[1:]
+            lines = str(config_file)
 
-        except ValueError:
-            print("This amount is not valid.")
+            count = lines.count('/')
+            count2 = lines.count(',')
+
+            if count >= 4 and count2 >= 2:
+                self.root.ids.status.text = "Trip details accepted"
+
+            else:
+                self.root.ids.status.text = "Trip details not valid"
+        except:
+            if not os.path.exists('config.txt'):
+                self.root.ids.status.text = "Trip file not found"
+
+
+    # def button_pressed(self):
+    #     country_name = str(self.root.ids.home_country.text).strip('\n')
+    #     amount = self.valid()
+    #     home_currency = str(get_details(country_name)).strip('\'').split('\'')[3]
+    #
+    #     print(home_currency)
+    #
+    #     try:
+    #         country_name = str(self.root.ids.country_selection.text)
+    #         location_currency = (get_details(country_name))
+    #         location_currency = str(location_currency).strip('\'').split('\'')[3]
+    #         converted_value = convert(amount, home_currency, location_currency)
+    #         self.root.ids.home_amount.text = str(converted_value)
+    #
+    #     except ValueError:
+    #         print("This amount is not valid.")
 
     def valid(self):
         try:
