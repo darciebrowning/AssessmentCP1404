@@ -6,11 +6,14 @@ from kivy.core.window import Window
 from kivy.properties import StringProperty
 from kivy.properties import ListProperty
 import datetime
+import time
 from currency import *
 from trip import *
 import os.path
 from kivy.uix.textinput import TextInput
 
+home_amount = TextInput.multiline=False
+foreign_amount = TextInput.multiline=False
 
 class CurrencyApp(App):
     current_country = StringProperty()
@@ -59,17 +62,9 @@ class CurrencyApp(App):
         self.root.ids.current_location.text = 'Current trip location is:\n' + current_country
 
     def current_date(self):
+        """Displays the current date today"""
         date_today = datetime.date.today().strftime("%Y/%m/%d")
         self.root.ids.date_today.text = 'Today is:\n' + date_today
-
-    def currency_convert_pressed(self):
-        """
-        If text entered into home country feild
-        run convert function and output to foreign country field
-
-        else if text changed in foreign country feild
-        run convert function and output to home country field
-        """
 
     def status_bar_update(self):
         """Updates the status bar of any errors loading the config file"""
@@ -91,24 +86,30 @@ class CurrencyApp(App):
             if not os.path.exists('config.txt'):
                 self.root.ids.status.text = "Trip file not found"
 
+    # def on_text(self, instance, value)
+    #     textinput = TextInput
+    #     textinput._bind_keyboard(on_text_validate=on_text)
+
+
     def button_pressed(self):
 
-        country_name = str(self.root.ids.home_country.text).strip('\n')
-        foreign_country = self.root.ids.country_selection.text
-        home_currency = str(get_details(country_name)).strip('\'').split('\'')[3]
-        foreign_currency = str(get_details(foreign_country)).strip('\'').split('\'')[3]
-        conversion_rate = convert(1,home_currency,foreign_currency)
-        foreign_amount = self.root.ids.foreign_amount.text
+        try:
+            country_name = str(self.root.ids.home_country.text).strip('\n')
+            home_currency = str(get_details(country_name)).strip('\'').split('\'')[3]
+            foreign_country = self.root.ids.country_selection.text
+            foreign_currency = str(get_details(foreign_country)).strip('\'').split('\'')[3]
+            conversion_rate = convert(1,home_currency,foreign_currency)
 
+            update_time = (time.strftime("%H:%M:%S"))
+            self.root.ids.status.text = str('Last updated at ') + update_time
+            return conversion_rate
 
-        print(foreign_amount)
-        print(conversion_rate)
-        print(home_currency)
-        print(foreign_currency)
+        except:
+            current_country_default = self.root.ids.current_location.text [26:]
+            self.root.ids.country_selection.text = current_country_default
 
-
-
-
+            update_time = (time.strftime("%H:%M:%S"))
+            self.root.ids.status.text = str('Last updated at ') + update_time
 
     def valid(self):
         try:
@@ -121,6 +122,7 @@ class CurrencyApp(App):
 
 
     def countries_available(self):
+        """Sets countries available in the spinner"""
         config_file = open('config.txt', encoding='utf-8')
         config_file = config_file.readlines() [1:]
         countries = []
